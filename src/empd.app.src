@@ -1,0 +1,35 @@
+{application, empd,
+ [
+  {description, "Extensible Monitoring Platform"},
+  {vsn, "0.8.0"},
+  {registered, [empd, iman, gman]},
+  {included_applications, [emp_tcpi]},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  emplog,
+                  empdb
+                 ]},
+  {mod, { empd_app, []}},
+  {env, [
+        %%
+        %% Base configuration for the emp server, DO NOT TOUCH unless you 
+        %% know what you are doing. To alter these values, run a command on
+        %% emp while its running, this will override the variable.
+        %%
+        
+            %% Interfaces %%%%%%%%%%%%%%%%%%%%%%%%%
+            % Interfaces to load - ensure these are also under 
+            % `inculded_applications` above. Supply a list of 
+            %       {iface_module_name, [StartArgs]}
+            % iman will call iface_module_name:start_link(normal, StartArgs) 
+            % and expects a return value of {ok, pid} to put it in the 
+            % supervision tree.
+            { ifaces, [ 
+            			{emp_tcpi_app, [9090]} 
+            		  ] 
+            }
+
+        ]
+  }
+ ]}.
